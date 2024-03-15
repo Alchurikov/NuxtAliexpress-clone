@@ -33,7 +33,11 @@
 
           <div id="Items" class="bg-white rounded-lg p-4 mt-4">
             <div v-for="product in products">
-              <CartItem :product="product" />
+              <CartItem
+                :product="product"
+                :selectedArray="selectedArray"
+                @selectedRadio="selectedRadioFunc"
+              />
             </div>
           </div>
         </div>
@@ -76,6 +80,37 @@ import { useUserStore } from '@/stores/user';
 const userStore = useUserStore();
 
 const cards = ref(['visa.png', 'mastercard.png', 'paypal.png', 'applepay.png']);
+const selectedArray = ref([]);
+
+const totalPriceComputed = computed(() => {
+  const total = userStore.cart.reduce(
+    (acc, currItem) => acc + currItem.price,
+    0
+  );
+  return total / 100;
+});
+
+const selectedRadioFunc = (el) => {
+  const index = selectedArray.value.findIndex((item) => item.id === el.id);
+
+  if (index === -1) {
+    selectedArray.value.push(el);
+  } else {
+    selectedArray.value.splice(index, 1);
+  }
+};
+
+const goToCheckout = () => {
+  userStore.cart = [];
+
+  const selectedItems = userStore.cart.filter((item) =>
+    selectedArray.value.some((selectedItem) => selectedItem.id === item.id)
+  );
+
+  userStore.checkout = [...userStore.checkout, ...selectedItems];
+
+  navigateTo('/checkout');
+};
 
 const products = [
   {

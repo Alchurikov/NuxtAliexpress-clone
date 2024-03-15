@@ -88,16 +88,7 @@ onMounted(() => {
   });
 });
 
-const isInCart = computed(() => {
-  let res = false;
-
-  userStore.cart.forEach((prod) => {
-    if (route.params.id === prod.id) {
-      res = true;
-    }
-    return res;
-  });
-});
+const isInCart = computed(() => userStore.cart.some(prod => prod.id === route.params.id));
 
 const priceComputed = computed(() => {
   return '25.99';

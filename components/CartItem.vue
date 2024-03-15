@@ -68,10 +68,12 @@ let isHovered = ref(false);
 let isSelected = ref(false);
 
 const removeFromCart = () => {
-  userStore.cart.forEach((prod, index) => {
-    if (prod.id === product.value.id) {
-      userStore.cart.splice(index, 1);
-    }
-  });
+  const index = userStore.cart.findIndex(
+    (item) => item.id === product.value.id
+  );
+
+  if (index !== -1) {
+    userStore.cart.splice(index, 1);
+  }
 };
 </script>
