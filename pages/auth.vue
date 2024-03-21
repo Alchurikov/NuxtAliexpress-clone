@@ -29,14 +29,14 @@
 </template>
 
 <script setup>
-// const client = useSupabaseClient();
-// const user = useSupabaseUser();
+const client = useSupabaseClient();
+const user = useSupabaseUser();
 
-// watchEffect(() => {
-//   if (user.value) {
-//     navigateTo('/account');
-//   }
-// });
+watchEffect(() => {
+  if (user.value) {
+    navigateTo('/account');
+  }
+});
 
 const login = async (provider) => {
   const { data, error } = await client.auth.signInWithOAuth({
