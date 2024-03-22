@@ -7,7 +7,7 @@ export default defineNuxtConfig({
     'nuxt-lodash',
     '@pinia/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
-    // '@nuxtjs/supabase',
+    '@nuxtjs/supabase',
     '@nuxtjs/tailwindcss',
   ],
   build: {
@@ -22,5 +22,8 @@ export default defineNuxtConfig({
     head: {
       script: [{ src: 'https://js.stripe.com/v3', defer: true }],
     },
+  },
+  supabase: {
+    redirect: false,
   },
 });

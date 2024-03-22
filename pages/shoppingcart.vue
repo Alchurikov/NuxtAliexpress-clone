@@ -1,12 +1,12 @@
 <template>
   <MainLayout>
     <div id="ShoppingCartPage" class="mt-4 max-w-[1200px] mx-auto px-2">
-      <div class="h-[500px] flex items-center justify-center">
+      <div v-if="!userStore.cart.length" class="h-[500px] flex items-center justify-center">
         <div class="pt-20">
           <img class="mx-auto" width="250" src="/cart-empty.png" />
           <div class="text-xl text-center mt-4">No items yet?</div>
 
-          <div class="flex text-center">
+          <div v-if="!user" class="flex text-center">
             <NuxtLink
               to="/auth"
               class="bg-[#FD374F] w-full text-white text-[21px] font-semibold p-1.5 rounded-full mt-4"
@@ -32,7 +32,7 @@
           </div>
 
           <div id="Items" class="bg-white rounded-lg p-4 mt-4">
-            <div v-for="product in products">
+            <div v-for="product in userStore.cart">
               <CartItem
                 :product="product"
                 :selectedArray="selectedArray"
@@ -76,6 +76,7 @@
 <script setup>
 import MainLayout from '@/layouts/MainLayout.vue';
 import { useUserStore } from '@/stores/user';
+const user = useSupabaseUser()
 
 const userStore = useUserStore();
 
@@ -112,20 +113,5 @@ const goToCheckout = () => {
   navigateTo('/checkout');
 };
 
-const products = [
-  {
-    title: 'Product 1',
-    description: 'Description for Product 1',
-    id: '001',
-    url: 'https://picsum.photos/id/7/800/800',
-    price: 1099,
-  },
-  {
-    title: 'Product 2',
-    description: 'Description for Product 2',
-    id: '002',
-    url: 'https://picsum.photos/id/71/800/800',
-    price: 1999,
-  },
-];
+
 </script>
